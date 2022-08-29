@@ -35,6 +35,10 @@ following commands:
 pip install -r requirements.txt
 pip install .
 ```
+Alternatively use pip
+```
+pip install random-walk-controversy
+```
 
 ## Usage
 ### Command line interface
