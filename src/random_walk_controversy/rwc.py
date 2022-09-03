@@ -128,11 +128,26 @@ def get_rwc(
 				formatted_current_time = datetime.now().strftime("[%H:%M:%S]")
 				print(f"{formatted_current_time} Simulation #{simulations_completed} completed")
 
-	p_xx = frequencies["side1"]["side1"] * 1.0 / (frequencies["side1"]["side1"] + frequencies["side2"]["side1"])
-	p_xy = frequencies["side1"]["side2"] * 1.0 / (frequencies["side1"]["side2"] + frequencies["side2"]["side2"])
-	p_yx = frequencies["side2"]["side1"] * 1.0 / (frequencies["side1"]["side1"] + frequencies["side2"]["side1"])
-	p_yy = frequencies["side2"]["side2"] * 1.0 / (frequencies["side1"]["side2"] + frequencies["side2"]["side2"])
-	
+	if (frequencies["side1"]["side1"] + frequencies["side2"]["side1"]) != 0:
+		p_xx = frequencies["side1"]["side1"] * 1.0 / (frequencies["side1"]["side1"] + frequencies["side2"]["side1"])
+	else:
+		p_xx = 0
+
+	if (frequencies["side1"]["side2"] + frequencies["side2"]["side2"]) != 0:
+		p_xy = frequencies["side1"]["side2"] * 1.0 / (frequencies["side1"]["side2"] + frequencies["side2"]["side2"])
+	else:
+		p_xy = 0
+
+	if (frequencies["side1"]["side1"] + frequencies["side2"]["side1"]) != 0:
+		p_yx = frequencies["side2"]["side1"] * 1.0 / (frequencies["side1"]["side1"] + frequencies["side2"]["side1"])
+	else:
+		p_yx = 0
+
+	if (frequencies["side1"]["side2"] + frequencies["side2"]["side2"]) != 0:
+		p_yy = frequencies["side2"]["side2"] * 1.0 / (frequencies["side1"]["side2"] + frequencies["side2"]["side2"])
+	else:
+		p_yy = 0
+
 	rwc_score = p_xx * p_yy - p_xy * p_yx
 	if not summary:
 		return rwc_score
