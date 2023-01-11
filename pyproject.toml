@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "random_walk_controversy"
-version = "0.1.3"
+version = "0.1.4"
 description = "Parallel implementation of Garimella's algorithm to get the RWC score of a network"
 license = "BSD-2-Clause"
 authors = ["Gianluca Morcaldi <bendico765@gmail.com>"]
