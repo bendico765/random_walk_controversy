@@ -9,7 +9,7 @@ homepage = "https://github.com/bendico765/random_walk_controversy"
 repository = "https://github.com/bendico765/random_walk_controversy"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.8"
 networkx = "^2.8.5"
 
 [tool.poetry.dev-dependencies]
