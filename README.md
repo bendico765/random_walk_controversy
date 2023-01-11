@@ -1,5 +1,7 @@
 # Random Walk Controversy
 
+[![Tests](https://github.com/bendico765/random_walk_controversy/actions/workflows/github-actions-demo.yml/badge.svg?branch=master)](https://github.com/bendico765/random_walk_controversy/actions/workflows/github-actions-demo.yml)
+
 This repo contains a parallel implementation of Kiran Garimella's algorithm to compute the random walk controversy 
 score of a graph.  
 
