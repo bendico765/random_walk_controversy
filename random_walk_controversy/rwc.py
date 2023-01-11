@@ -20,6 +20,7 @@ def perform_random_walk(g: nx.DiGraph, starting_node: object, user_nodes_side1: 
 	current_node = starting_node
 	while True:
 		current_node = random.choice([_ for _ in g.neighbors(current_node)])
+
 		if current_node in user_nodes_side1:
 			return "side1"
 		if current_node in user_nodes_side2:
@@ -52,22 +53,23 @@ def perform_simulation(g: nx.DiGraph, side1_nodes: list, side1_percent: int, sid
 		}
 	}
 
+	# note how sampling with replacement is done here, as has been done in the original author's implementation
 	user_nodes_side1 = [random.choice(side1_nodes) for _ in range(side1_percent)]  # starting point nodes from side 1
 	user_nodes_side2 = [random.choice(side2_nodes) for _ in range(side2_percent)]  # starting point nodes from side 2
 
 	# from side1 to side2
 	for (index, start_node) in enumerate(user_nodes_side1):
 		other_nodes = user_nodes_side1[:index] + user_nodes_side1[index + 1:]  # other nodes in that partition except the one just picked
+
 		side = perform_random_walk(g, start_node, other_nodes, user_nodes_side2)  # get the side we endend after the random walk
-		if side != "":
-			results["side1"][side] += 1
+		results["side1"][side] += 1
 
 	# from side2 to side1
 	for (index, start_node) in enumerate(user_nodes_side2):
 		other_nodes = user_nodes_side2[:index] + user_nodes_side2[index + 1:]
+
 		side = perform_random_walk(g, start_node, user_nodes_side1, other_nodes)
-		if side != "":
-			results["side2"][side] += 1
+		results["side2"][side] += 1
 
 	return results
 
@@ -116,7 +118,7 @@ def get_rwc(
 	# parallel execution of simulations
 	simulations_completed = 0
 	with concurrent.futures.ProcessPoolExecutor() as executor:
-		futures = [executor.submit(perform_simulation, g, side1, side1_nodes, side2, side2_nodes) for i in range(0, n)]
+		futures = [executor.submit(perform_simulation, g, side1, side1_nodes, side2, side2_nodes) for _ in range(0, n)]
 		for future in concurrent.futures.as_completed(futures):
 			simulation_frequencies = future.result()
 			frequencies["side1"]["side1"] += simulation_frequencies["side1"]["side1"]
@@ -166,5 +168,3 @@ def get_rwc(
 				}
 			}
 		}
-
-
