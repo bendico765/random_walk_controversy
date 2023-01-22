@@ -46,3 +46,22 @@ class RwcTests(unittest.TestCase):
 				p = probabilities[label1][label2]
 				self.assertTrue(isinstance(p, int) or isinstance(p, float))
 				self.assertTrue(p >= 0 and p <= 1)
+
+	def test_different_number_workers(self):
+		max_workers_list = [1, 2, 3, 4]
+		side1_nodes = [_ for _ in range(50)]
+		side2_nodes = [_ for _ in range(50, 100)]
+		g = nx.bipartite.complete_bipartite_graph(side1_nodes, side2_nodes)
+
+		for max_workers in max_workers_list:
+			rwc_score = get_rwc(
+				g,
+				side1_nodes,
+				side2_nodes,
+				max_workers=max_workers,
+				percent=10,
+				n=200,
+				summary=False
+			)
+			# assert is a number
+			self.assertTrue(isinstance(rwc_score, int) or isinstance(rwc_score, float))
