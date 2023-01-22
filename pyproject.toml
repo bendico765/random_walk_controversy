@@ -10,7 +10,7 @@ repository = "https://github.com/bendico765/random_walk_controversy"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-networkx = "^2.8.5"
+networkx = "^2.0.0"
 
 [tool.poetry.dev-dependencies]
 
