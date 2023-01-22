@@ -80,6 +80,7 @@ def get_rwc(
 		side2: list,
 		percent: float,
 		n: int,
+		max_workers: int = None,
 		summary: bool = False,
 		completion_logs: bool = False
 ) -> object:
@@ -96,6 +97,8 @@ def get_rwc(
 	:param side2: list, the nodes belonging to the second side
 	:param percent: float, between 0.0 and 1.0 is the number of nodes of each partition that we want to use a staring point in each simulation
 	:param n: int, total number of simulations to run
+	:param max_workers: int, maximum number of worker processes created; If max_workers is None or not given, it will
+	default to the number of processors on the machine.
 	:param summary: bool, optional if True the function returns a brief summary (a dictionary) about the computation 
 					(e.g. the frequencies, probabilities, the rwc score), otherwise it just returns the rwc score
 	:param completion_logs: bool, optional If True prints a log on stdout every time a simulation has completed
@@ -117,7 +120,7 @@ def get_rwc(
 	
 	# parallel execution of simulations
 	simulations_completed = 0
-	with concurrent.futures.ProcessPoolExecutor() as executor:
+	with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
 		futures = [executor.submit(perform_simulation, g, side1, side1_nodes, side2, side2_nodes) for _ in range(0, n)]
 		for future in concurrent.futures.as_completed(futures):
 			simulation_frequencies = future.result()
